@@ -1,0 +1,3 @@
+USE kimeraso_LaChilenita;
+drop database kimeraso_LaChilenita;
+create database kimeraso_LaChilenita;

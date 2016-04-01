@@ -9,10 +9,12 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->integer('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->boolean('installed');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->primary('id');
+        });
+        Schema::table('configurations', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
     public function down()

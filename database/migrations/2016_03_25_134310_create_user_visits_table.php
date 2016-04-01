@@ -10,7 +10,7 @@ class CreateUserVisitsTable extends Migration
         Schema::create('user_visits', function (Blueprint $table) {
             $table->integer('customer_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('visit_status_id')->unsigned();
+            $table->integer('visit_status_id');
             $table->date('programmed_date');
             $table->time('programmed_time');
             $table->date('arrival_date');
@@ -19,6 +19,8 @@ class CreateUserVisitsTable extends Migration
             $table->string('detail');
             $table->timestamps();
             $table->softDeletes();
+        });
+        Schema::table('user_visits', function (Blueprint $table) {
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('visit_status_id')->references('id')->on('visit_statuses');

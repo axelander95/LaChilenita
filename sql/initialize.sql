@@ -1,3 +1,4 @@
+USE kimeraso_LaChilenita;
 INSERT INTO roles VALUES (1, 'admin', 'Administrador');
 INSERT INTO roles VALUES (2, 'supervisor', 'Supervisor');
 INSERT INTO roles VALUES (3, 'employee', 'Empleado');

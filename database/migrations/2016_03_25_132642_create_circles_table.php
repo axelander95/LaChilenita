@@ -13,6 +13,8 @@ class CreateCirclesTable extends Migration
             $table->string('name')->unique();
             $table->timestamps();
             $table->softDeletes();
+        });
+        Schema::table('circles', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
