@@ -6,7 +6,7 @@
 {{ $title }}
 @endsection
 @section('admin-content')
-    <form method="POST" action="{{ isset($action)?$action:url('/admin/circles') }}">
+    <form name="circle" method="POST" action="{{ isset($action)?$action:url('/admin/circles') }}">
     @if (isset($method))
         <input name="_method" type="hidden" value="PUT">
     @endif
@@ -24,6 +24,35 @@
                 @endforeach
             </select>
         </div>
+        <div class="form-group">
+            <label>Miembros del círculo</label>
+            @if(count($members) > 0)
+                @foreach ($members as $member)
+                    <div class="checkbox">
+                        <label> <input type="checkbox" name="members[]" value="{{ $member->id }}" />
+                            {{ $member->name . ' (' . $member->username . ')' }}
+                        </label>
+                    </div>
+                @endforeach
+            @else 
+                <label class="label label-info">¡No hay empleados registrados!</label>
+            @endif
+        </div>
+        <script>
+            function checkMember (member) {
+                var members = document.getElementsByName('members[]');
+                    for (var i = 0; i < members.length; i++)
+                        if (members[i].value ==  member)
+                            members[i].checked = true;
+            }
+        </script>
+        @if (isset($circle_users))
+            @foreach($circle_users as $member)
+                <script>
+                    checkMember({{ $member['user_id'] }});
+                </script>
+            @endforeach
+        @endif
                         @if (count($errors) > 0)
                                 <div class="alert alert-danger">
                                     <ul>

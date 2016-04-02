@@ -14,7 +14,7 @@
             font-family: 'Raleway', sans-serif;
         }
         #map {
-            min-height: 150px;
+            min-height: 200px;
             width: 100%;
         }
         .panel-default .panel-title {

@@ -50,7 +50,7 @@
                 function initMap() {
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: position,
-                        zoom: 10
+                        zoom: 18
                     });
                     marker = new google.maps.Marker(
                         {
