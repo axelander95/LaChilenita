@@ -96,6 +96,10 @@ class CircleController extends Controller
     }
     public function destroy($id)
     {
-        //
+        Circle::destroy($id);
+        return view('admin.circles', [
+            'search' => '/admin/circles/search/', 'circles' => Circle::all(), 
+            'link' => '/admin/circles/create'
+        ]);
     }
 }

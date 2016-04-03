@@ -7,6 +7,7 @@
 
     <title>La Chilenita | @yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <style>
         body 
@@ -47,7 +48,18 @@
                     <li><a href="{{ url('/home') }}"><b>INICIO</b></a></li>
                     @if (!Auth::guest())
                         @if (Auth::user()->role_id == 1)
-                            <li><a href="{{ url('/admin') }}"><strong>PANEL DE ADMINISTRACIÓN</strong></a></li>
+                            <li>
+                                <a href="{{ url('/admin') }}">
+                                    <strong>PANEL DE ADMINISTRACIÓN</strong>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->role_id == 2)
+                            <li>
+                                <a href="{{ url('/supervisor') }}">
+                                    <strong>PANEL DE SUPERVISIÓN</strong>
+                                </a>
+                            </li>
                         @endif
                     @endif 
                 </ul>

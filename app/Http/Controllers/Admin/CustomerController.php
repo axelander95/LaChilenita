@@ -20,7 +20,7 @@ class CustomerController extends Controller
     {
         $search = $request->input('search');
         $customers = Customer::where('name', 'like', '%' . $search . '%')->orWhere('identification', 'like', 
-        '%' . $customers . '%')->orWhere('address', 'like', '%' . $search . '%')->get();
+        '%' . $search . '%')->orWhere('address', 'like', '%' . $search . '%')->get();
         return view('admin.customers', [
             'search' => '/admin/customers/search/', 'customers' => $customers, 'link' => '/admin/customers/create'
         ]);
@@ -84,6 +84,10 @@ class CustomerController extends Controller
     }
     public function destroy($id)
     {
-        //
+        Customer::destroy($id);
+        return view('admin.customers', [
+            'search' => '/admin/customers/search/', 'customers' => Customer::all(), 
+            'link' => '/admin/customers/create'
+        ]);
     }
 }

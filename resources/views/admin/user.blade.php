@@ -6,6 +6,15 @@
 {{ $title }}
 @endsection
 @section('admin-content')
+    @if (isset($user))
+        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+            <form method="POST" action="{{ url('/admin/users/' . $user->id) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" class="btn btn-default" value="Eliminar" />
+            </form>
+        </div>
+    @endif
     <form method="POST" action="{{ isset($action)?$action:url('/admin/users') }}">
     @if (isset($method))
         <input name="_method" type="hidden" value="PUT">

@@ -12,21 +12,25 @@ class UserVisit extends Model
     ];
     protected $fillable = [
         'customer_id', 'user_id', 'visit_status_id', 'programmed_date', 'programmed_time', 'arrival_date',
-        'arrival_time', 'route', 'detail'
+        'arrival_time', 'route', 'detail', 'circle_id'
     ];
     protected $hidden = [
         
     ];
     public function user()
     {
-        return $this->hasOne('App\Models\User');
+        return $this->belongsTo('App\Models\User');
+    }
+    public function circle() 
+    {
+        return $this->belongsTo('App\Models\Circle');
     }
     public function customer()
     {
-        return $this->hasOne('App\Models\Customer');
+        return $this->belongsTo('App\Models\Customer');
     }
     public function visit_status()
     {
-        return $this->hasOne('App\Models\VisitStatus');
+        return $this->belongsTo('App\Models\VisitStatus');
     }
 }

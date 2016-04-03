@@ -34,3 +34,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'install', 'auth', 'a
     Route::post('/customers/search/', 'Admin\CustomerController@search');
     Route::resource('/customers', 'Admin\CustomerController');
 });
+Route::group(['prefix' => 'supervisor', 'middleware' => ['web', 'install', 'auth', 'supervisor']], function () {
+    Route::get('/', 'Supervisor\CircleController@index');
+    Route::get('/visits/{id}/create', 'Supervisor\CircleController@create');
+    Route::resource('/visits', 'Supervisor\CircleController');
+});

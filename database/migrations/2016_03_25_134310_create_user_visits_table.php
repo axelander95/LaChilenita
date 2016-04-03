@@ -8,6 +8,8 @@ class CreateUserVisitsTable extends Migration
     public function up()
     {
         Schema::create('user_visits', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('circle_id')->unsigned();
             $table->integer('customer_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('visit_status_id');
@@ -21,6 +23,7 @@ class CreateUserVisitsTable extends Migration
             $table->softDeletes();
         });
         Schema::table('user_visits', function (Blueprint $table) {
+            $table->foreign('circle_id')->references('id')->on('circles');
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('visit_status_id')->references('id')->on('visit_statuses');

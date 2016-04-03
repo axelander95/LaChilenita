@@ -76,6 +76,9 @@ class UserController extends Controller
     }
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        return view('admin.users', [
+            'search' => '/admin/users/search/', 'users' => User::all(), 'link' => '/admin/users/create'
+        ]);
     }
 }

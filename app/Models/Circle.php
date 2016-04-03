@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Circle extends Model
@@ -23,5 +22,8 @@ class Circle extends Model
     public function users()
     {
         return $this->hasMany('App\Models\CircleUser');
+    }
+    public function visits () {
+        return $this->hasMany('App\Models\UserVisit');
     }
 }

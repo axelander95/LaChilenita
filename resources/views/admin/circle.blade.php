@@ -6,6 +6,15 @@
 {{ $title }}
 @endsection
 @section('admin-content')
+    @if (isset($circle))
+        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+            <form method="POST" action="{{ url('/admin/circles/' . $circle->id) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" class="btn btn-default" value="Eliminar" />
+            </form>
+        </div>
+    @endif
     <form name="circle" method="POST" action="{{ isset($action)?$action:url('/admin/circles') }}">
     @if (isset($method))
         <input name="_method" type="hidden" value="PUT">
@@ -69,8 +78,8 @@
             </div>
         @endif
         <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-primary" />
-            <a href="{{ url('/admin/circles') }}" class="btn btn-danger">Cancelar</a>
+            <input type="submit" value="Guardar" class="btn btn-default" />
+            <a href="{{ url('/admin/circles') }}" class="btn btn-default">Cancelar</a>
         </div>
     </form>
 @endsection
