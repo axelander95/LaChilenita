@@ -1,10 +1,4 @@
-@extends('layouts.admin-forms')
-@section('title')
-Círculos (Administrador)
-@endsection
-@section('section-title')
-Círculos
-@endsection
+@extends('layouts.admin-list')
 @section('table')
     @if(count($circles) > 0)
         <div class="table-responsive">
@@ -16,7 +10,7 @@ Círculos
                 </tr>
             @foreach ($circles as $circle)
                 <tr>
-                    <td><a href="{{ url('/admin/circles/' . $circle->id . '/edit/') }}">{{ $circle->name }}</a></td>
+                    <td><a href="{{ url('/admin/' . $module .'/' . $circle->id . '/edit/') }}">{{ $circle->name }}</a></td>
                     <td>{{ $circle->user->name }}</td>
                     <td>{{ $circle->user->username }}</td>
                 </tr>

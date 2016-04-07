@@ -11,8 +11,12 @@ class UserController extends Controller
 {
     public function index()
     {
+        return $this->listview(User::all());
+    }
+    private function listview($users) 
+    {
         return view('admin.users', [
-            'search' => '/admin/users/search/', 'users' => User::all(), 'link' => '/admin/users/create'
+            'module' => 'users', 'users' => $users
         ]);
     }
     public function search(Request $request)
@@ -20,13 +24,11 @@ class UserController extends Controller
         $search = $request->input('search');
         $users = User::where('name', 'like', '%' . $search . '%')->orWhere('email', 'like', '%' . $search 
         . '%')->orWhere('username', 'like', '%' . $search . '%')->get();
-        return view('admin.users', [
-            'search' => '/admin/users/search/', 'users' => $users, 'link' => '/admin/users/create'
-        ]);
+        return listview($users);
     }
     public function create()
     {
-        return view('admin.user', ['title' => 'Nuevo usuario', 'roles' => Role::all()]);
+        return view('admin.user', ['roles' => Role::all(), 'module' => 'users']);
     }
     public function store(Request $request)
     {
@@ -43,9 +45,7 @@ class UserController extends Controller
             'username' => $request->input('username'),
             'password' => bcrypt($request->input('password')),
         ]);
-        return view('admin.user', ['title' => 'Modificar usuario', 'roles' => Role::all(), 'user' => 
-        $user, 'method' => 'PUT', 'action' => '/admin/users/' . $user->id, 
-        'message' => 'Usuario creado con éxito.' ]);
+        return $this->formview($user);
     }
     public function show($id)
     {
@@ -53,8 +53,7 @@ class UserController extends Controller
     }
     public function edit($id)
     {
-        return view('admin.user', ['title' => 'Modificar usuario', 'roles' => Role::all(), 'user' => 
-        User::findOrFail($id), 'method' => 'PUT', 'action' => '/admin/users/' . $id ]);
+        return $this->formview(User::findOrFail($id));
     }
     public function update(Request $request, $id)
     {
@@ -70,15 +69,16 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->role_id = $request->input('role');
         $user->save();
-        return view('admin.user', ['title' => 'Modificar usuario', 'roles' => Role::all(), 'user' => 
-        $user, 'method' => 'PUT', 'action' => '/admin/users/' . $id, 
-        'message' => 'Usuario modificado con éxito.' ]);
+        return $this->formview($user);
+    }
+    private function formview($user) 
+    {
+        return view('admin.user', ['roles' => Role::all(), 'data' => 
+        $user,  'module' => 'users']);
     }
     public function destroy($id)
     {
         User::destroy($id);
-        return view('admin.users', [
-            'search' => '/admin/users/search/', 'users' => User::all(), 'link' => '/admin/users/create'
-        ]);
+        return $this->listview(User::all());
     }
 }

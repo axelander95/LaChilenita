@@ -1,39 +1,23 @@
-@extends('layouts.admin')
+@extends('layouts.admin-form')
 @section('title')
-{{ $title }}
+{{ isset($data)?'Modificar cliente' : 'Nuevo cliente' }}
 @endsection
-@section('section-title')
-{{ $title }}
-@endsection
-@section('admin-content')
-    @if (isset($customer))
-        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
-            <form method="POST" action="{{ url('/admin/customers/' . $customer->id) }}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="delete" />
-                <input type="submit" class="btn btn-default" value="Eliminar" />
-            </form>
-        </div>
-    @endif
-    <form method="POST" action="{{ isset($action)?$action:url('/admin/customers') }}">
-    @if (isset($method))
-        <input name="_method" type="hidden" value="PUT">
-    @endif
+@section('form')
         <div class="form-group">
             <label>Nombre del cliente (Requerido)</label>
             <input type="text" name="name" class="form-control" required="required" 
-            value="{{ isset($customer)?$customer->name:'' }}"/>
+            value="{{ isset($data)?$data->name:'' }}"/>
         </div>
         <div class="form-group">
             <label>Identificación</label>
             <input type="text" name="identification" class="form-control" required="required" 
-            value="{{ isset($customer)?$customer->identification:'' }}"/>
+            value="{{ isset($data)?$data->identification:'' }}"/>
         </div>
         <div class="form-group">
             <label>Dirección</label>
                     <div class="input-group">
                         <input id="address" name="address" type="text" class="form-control"
-                        placeholder="Escribe la dirección..." value="{{ isset($customer)?$customer->address:'' }}">
+                        value="{{ isset($data)?$data->address:'' }}">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" onclick="locate();">Buscar en el mapa</button>
                         </span>
@@ -42,12 +26,12 @@
         <div class="form-group">
              <label>Latitud</label>
              <input type="text" name="latitude" id="latitude" class="form-control" required="required" readonly="readonly"
-             value="{{ isset($customer)?$customer->latitude:'' }} "/>
+             value="{{ isset($data)?$data->latitude:'' }} "/>
         </div>
         <div class="form-group">
             <label>Longitud</label>
             <input type="text" name="longitude" id="longitude" class="form-control" required="required" 
-            readonly="readonly" value="{{ isset($customer)?$customer->longitude:'' }}"/>
+            readonly="readonly" value="{{ isset($data)?$data->longitude:'' }}"/>
         </div>
         <div class="form-group">
             <div id="map"></div>
@@ -67,14 +51,14 @@
                         }
                     );
                     geocoder = new google.maps.Geocoder();
-                    @if (isset($customer))
-                            locate();
+                    @if (isset($data))
+                        locate();
                     @endif
                 }
                 function locate() {
                     var address = document.getElementById('address').value;
                     marker.setMap(null);
-                    geocoder.geocode( { 'address': address, 
+                    geocoder.geocode( { 'address' : address,
                     componentRestrictions: {
                         country: 'EC'
                     }}, function(results, status) {
@@ -98,7 +82,7 @@
         <div class="form-group">
             <label>Referencia de la ubicación</label>
             <textarea name="reference"
-                class="form-control">{{ isset($customer)?$customer->reference:'' }}</textarea>
+                class="form-control">{{ isset($data)?$data->reference:'' }}</textarea>
         </div>
                         @if (count($errors) > 0)
                                 <div class="alert alert-danger">
@@ -109,17 +93,6 @@
                                     </ul>
                                 </div>
                             @endif
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @if (isset($message))
-            <div class="form-group">
-                <label class="label label-info">{{ $message }}</label>
-            </div>
-        @endif
-        <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-default" />
-            <a href="{{ url('/admin/customers') }}" class="btn btn-default">Cancelar</a>
-        </div>
-    </form>
 @endsection
 @section('scripts')
     <script async defer

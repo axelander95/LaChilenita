@@ -50,6 +50,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'install' => \App\Http\Middleware\RedirectIfNotInstalled::class,
         'admin' => \App\Http\Middleware\RedirectNoAdmin::class,
-        'supervisor' => \App\Http\Middleware\RedirectNoSupervisor::class
+        'supervisor' => \App\Http\Middleware\RedirectNoSupervisor::class,
+        'employee' => \App\Http\Middleware\RedirectNoEmployee::class
     ];
 }

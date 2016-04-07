@@ -11,9 +11,13 @@ class CustomerController extends Controller
 {
     public function index()
     {
+        $customers = Customer::all();
+        return $this->listview($customers);
+    }
+    private function listview($list)
+    {
         return view('admin.customers', [
-            'search' => '/admin/customers/search/', 'customers' => Customer::all(), 
-            'link' => '/admin/customers/create'
+            'module' => 'customers', 'customers' => $list
         ]);
     }
     public function search(Request $request)
@@ -21,13 +25,11 @@ class CustomerController extends Controller
         $search = $request->input('search');
         $customers = Customer::where('name', 'like', '%' . $search . '%')->orWhere('identification', 'like', 
         '%' . $search . '%')->orWhere('address', 'like', '%' . $search . '%')->get();
-        return view('admin.customers', [
-            'search' => '/admin/customers/search/', 'customers' => $customers, 'link' => '/admin/customers/create'
-        ]);
+        return $this->listview($customers);
     }
     public function create()
     {
-        return view('admin.customer', ['title' => 'Nuevo cliente']);
+        return view('admin.customer', ['module' => 'customers']);
     }
     public function store(Request $request)
     {
@@ -46,9 +48,11 @@ class CustomerController extends Controller
             'latitude' => $request->input('latitude'),
             'longitude' => $request->input('longitude')
         ]);
-        return view('admin.customer', ['title' => 'Modificar cliente', 'customer' => 
-        $customer, 'method' => 'PUT', 'action' => '/admin/customers/' . $customer->id, 
-        'message' => 'Cliente creado con éxito.' ]);
+        return $this->formview($customer);
+    }
+    private function formview($customer) 
+    {
+        return view('admin.customer', ['data' => $customer , 'module' => 'customers' ]);
     }
     public function show($id)
     {
@@ -56,8 +60,7 @@ class CustomerController extends Controller
     }
     public function edit($id)
     {
-        return view('admin.customer', ['title' => 'Modificar cliente', 
-         'customer' => Customer::findOrFail($id), 'method' => 'PUT', 'action' => '/admin/customers/' . $id ]);
+        return $this->formview(Customer::findOrFail($id));
     }
     public function update(Request $request, $id)
     {
@@ -78,16 +81,12 @@ class CustomerController extends Controller
         $customer->longitude = $request->input('longitude');
         $customer->reference = $request->input('reference');
         $customer->save();
-        return view('admin.customer', ['title' => 'Modificar cliente', 
-        'customer' => $customer, 'method' => 'PUT', 'action' => '/admin/customers/' . $id, 
-        'message' => 'Cliente modificado con éxito.' ]);
+        return $this->formview($customer);
     }
     public function destroy($id)
     {
         Customer::destroy($id);
-        return view('admin.customers', [
-            'search' => '/admin/customers/search/', 'customers' => Customer::all(), 
-            'link' => '/admin/customers/create'
-        ]);
+        $customers = Customer::all();
+        return $this->listview($customers);
     }
 }

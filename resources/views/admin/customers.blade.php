@@ -1,8 +1,5 @@
-@extends('layouts.admin-forms')
+@extends('layouts.admin-list')
 @section('title')
-Clientes (Administrador)
-@endsection
-@section('section-title')
 Clientes
 @endsection
 @section('table')
@@ -19,7 +16,7 @@ Clientes
                 </tr>
             @foreach ($customers as $customer)
                 <tr>
-                    <td><a href="{{ url('/admin/customers/' . $customer->id . '/edit/') }}">{{ $customer->name }}</a></td>
+                    <td><a href="{{ url('/admin/' . $module . '/' . $customer->id . '/edit/') }}">{{ $customer->name }}</a></td>
                     <td>{{ $customer->identification }}</td>
                     <td>{{ $customer->address }}</td>
                     <td>{{ $customer->reference }}</td>

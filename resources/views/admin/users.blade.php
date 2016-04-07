@@ -1,8 +1,5 @@
-@extends('layouts.admin-forms')
+@extends('layouts.admin-list')
 @section('title')
-Usuarios (Administrador)
-@endsection
-@section('section-title')
 Usuarios
 @endsection
 @section('table')
@@ -17,7 +14,7 @@ Usuarios
                 </tr>
             @foreach ($users as $user)
                 <tr>
-                    <td><a href="{{ url('/admin/users/' . $user->id . '/edit/') }}">{{ $user->name }}</a></td>
+                    <td><a href="{{ url('/admin/' . $module . '/' . $user->id . '/edit/') }}">{{ $user->name }}</a></td>
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->description }}</td>

@@ -38,4 +38,10 @@ Route::group(['prefix' => 'supervisor', 'middleware' => ['web', 'install', 'auth
     Route::get('/', 'Supervisor\CircleController@index');
     Route::get('/visits/{id}/create', 'Supervisor\CircleController@create');
     Route::resource('/visits', 'Supervisor\CircleController');
+    Route::get('/visits/{circle}/map', 'Supervisor\CircleMapController@index');
+    Route::resource('/visits/{circle}/map', 'Supervisor\CircleMapController');
+});
+Route::group(['prefix' => 'employee', 'middleware' => ['web', 'install', 'auth', 'employee']], function () {
+    Route::get('/', 'Employee\CircleController@index');
+    Route::resource('/visits', 'Employee\CircleController');
 });

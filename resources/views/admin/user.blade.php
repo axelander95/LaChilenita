@@ -1,44 +1,28 @@
-@extends('layouts.admin')
+@extends('layouts.admin-form')
 @section('title')
-{{ $title }}
+{{ isset($data)?'Modificar usuario' : 'Nuevo usuario' }}
 @endsection
-@section('section-title')
-{{ $title }}
-@endsection
-@section('admin-content')
-    @if (isset($user))
-        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
-            <form method="POST" action="{{ url('/admin/users/' . $user->id) }}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="delete" />
-                <input type="submit" class="btn btn-default" value="Eliminar" />
-            </form>
-        </div>
-    @endif
-    <form method="POST" action="{{ isset($action)?$action:url('/admin/users') }}">
-    @if (isset($method))
-        <input name="_method" type="hidden" value="PUT">
-    @endif
+@section('form')
         <div class="form-group">
             <label>Nombre(s) y apellido(s) (Requerido)</label>
             <input type="text" name="name" class="form-control" required="required" 
-            value="{{ isset($user)?$user->name:'' }}"/>
+            value="{{ isset($data)?$data->name:'' }}"/>
         </div>
         <div class="form-group">
             <label>Correo electrónico (Requerido)</label>
             <input type="email" name="email" class="form-control" required="required"
-            value="{{ isset($user)?$user->email:'' }}"/>
+            value="{{ isset($data)?$data->email:'' }}"/>
         </div>
         <div class="form-group">
             <label>Nombre de usuario (Requerido)</label>
             <input type="text" name="username" class="form-control" required="required" {{ isset($user)?'disabled':'' }}
-            value="{{ isset($user)?$user->username:'' }}"/>
+            value="{{ isset($data)?$data->username:'' }}"/>
         </div>
         <div class="form-group">
             <label>Rol de usuario (Requerido)</label>
             <select class="form-control" name="role">
                 @foreach($roles as $rol)
-                    <option {{ isset($user)?(($user->role_id == $rol->id)?'selected':''):'' }} value="{{ $rol->id }}">{{ $rol->description }}</option>
+                    <option {{ isset($data)?(($data->role_id == $rol->id)?'selected':''):'' }} value="{{ $rol->id }}">{{ $rol->description }}</option>
                 @endforeach
             </select>
         </div>
@@ -59,15 +43,4 @@
                                     </ul>
                                 </div>
                             @endif
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @if (isset($message))
-            <div class="form-group">
-                <label class="label label-info">{{ $message }}</label>
-            </div>
-        @endif
-        <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-primary" />
-            <a href="{{ url('/admin/users') }}" class="btn btn-danger">Cancelar</a>
-        </div>
-    </form>
 @endsection

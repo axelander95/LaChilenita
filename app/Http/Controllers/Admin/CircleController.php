@@ -12,24 +12,25 @@ class CircleController extends Controller
 {
     public function index()
     {
+        return $this->listview(Circle::all());
+    }
+    private function listview($circles) 
+    {
         return view('admin.circles', [
-            'search' => '/admin/circles/search/', 'circles' => Circle::all(), 
-            'link' => '/admin/circles/create'
+            'module' => 'circles', 'circles' => $circles
         ]);
     }
     public function search(Request $request)
     {
         $search = $request->input('search');
         $circles = Circle::where('name', 'like', '%' . $search . '%')->get();
-        return view('admin.circles', [
-            'search' => '/admin/circles/search/', 'circles' => $circles, 'link' => '/admin/circles/create'
-        ]);
+        return $this->listview($circles);
     }
     public function create()
     {
-        return view('admin.circle', ['title' => 'Nuevo círculo', 
+        return view('admin.circle', [ 
         'users' => User::where('role_id', 2)->get(), 
-        'members' => User::where('role_id', 3)->get()]);
+        'members' => User::where('role_id', 3)->get(), 'module' => 'circles']);
     }
     public function store(Request $request)
     {
@@ -43,17 +44,17 @@ class CircleController extends Controller
         ]);
         $members = $request->input('members');
         $circle_users = array();
-        foreach ($members as $member){
-            $circle_user = CircleUser::create([
-                'circle_id' => $circle->id, 'user_id' => $member
-            ]);
-            $circle_users[] = $circle_user;
+        if (isset($members)) {
+            foreach ($members as $member){
+                $circle_user = CircleUser::create([
+                    'circle_id' => $circle->id, 'user_id' => $member
+                ]);
+                $circle_users[] = $circle_user;
+            }
         }
-        return view('admin.circle', ['title' => 'Modificar círculo', 
-        'users' => User::where('role_id', 2)->get(), 'circle' => 
-        $circle, 'method' => 'PUT', 'action' => '/admin/circles/' . $circle->id, 
-        'message' => 'Círculo creado con éxito.', 'circle_users' => $circle_users, 
-        'members' => User::where('role_id', 3)->get()]);
+        return view('admin.circle', ['users' => User::where('role_id', 2)->get(), 
+        'data' => $circle, 'circle_users' => $circle_users, 
+        'members' => User::where('role_id', 3)->get(), 'module' => 'circles']);
     }
     public function show($id)
     {
@@ -61,11 +62,10 @@ class CircleController extends Controller
     }
     public function edit($id)
     {
-        return view('admin.circle', ['title' => 'Modificar círculo', 
-        'users' => User::where('role_id', 2)->get(), 'circle' => 
-        Circle::findOrFail($id), 'method' => 'PUT', 'action' => '/admin/circles/' . $id, 
+        return view('admin.circle', ['users' => User::where('role_id', 2)->get(), 
+        'data' => Circle::findOrFail($id), 
         'members' => User::where('role_id', 3)->get(), 'circle_users' => 
-        CircleUser::where('circle_id', $id)->get() ]);
+        CircleUser::where('circle_id', $id)->get(), 'module' => 'circles' ]);
     }
     public function update(Request $request, $id)
     {
@@ -81,25 +81,21 @@ class CircleController extends Controller
         CircleUser::where('circle_id', $circle->id)->delete();
         $members = $request->input('members');
         $circle_users = array();
-        foreach ($members as $member){
-            $circle_user = CircleUser::create([
-                'circle_id' => $circle->id, 'user_id' => $member
-            ]);
-            $circle_users[] = $circle_user;
+        if (isset($members)) {
+            foreach ($members as $member){
+                $circle_user = CircleUser::create([
+                    'circle_id' => $circle->id, 'user_id' => $member
+                ]);
+                $circle_users[] = $circle_user;
+            }
         }
-        return view('admin.circle', ['title' => 'Modificar círculo', 
-        'users' => User::where('role_id', 2)->get(), 'circle' => 
-        $circle, 'method' => 'PUT', 'action' => '/admin/circles/' . $id, 
-        'message' => 'Círculo modificado con éxito.', 
-        'members' => User::where('role_id', 3)->get(), 
-        'circle_users' => $circle_users]);
+        return view('admin.circle', ['users' => User::where('role_id', 2)->get(), 
+        'data' => $circle, 'members' => User::where('role_id', 3)->get(), 
+        'circle_users' => $circle_users, 'module' => 'circles']);
     }
     public function destroy($id)
     {
         Circle::destroy($id);
-        return view('admin.circles', [
-            'search' => '/admin/circles/search/', 'circles' => Circle::all(), 
-            'link' => '/admin/circles/create'
-        ]);
+        return $this->listview(Circle::all());
     }
 }

@@ -24,7 +24,7 @@ Supervisión
                                                             <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> <span class="caret"></span>
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a href="#">Ver en el mapa</a></li>
+                                                            <li><a href="{{ url('/supervisor/visits/' . $circle->id . '/map') }}">Ver en el mapa</a></li>
                                                             <li><a href="{{ url('/supervisor/visits/' . $circle->id) }}">Ver visitas</a></li>
                                                             <li><a href="#">Ver reportes</a></li>
                                                         </ul>

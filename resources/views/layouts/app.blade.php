@@ -15,12 +15,11 @@
             font-family: 'Raleway', sans-serif;
         }
         #map {
-            min-height: 200px;
+            min-height: 150px;
             width: 100%;
         }
-        .panel-default .panel-title {
-            color: #fff;
-        }
+        
+        @yield('styles')
     </style>
 </head>
 <body id="app-layout">

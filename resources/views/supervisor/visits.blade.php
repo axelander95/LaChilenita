@@ -29,7 +29,7 @@ Visitas
                                     <th>Detalle</th>
                                     <th>Estado</th>
                                     @foreach ($visits as $visit)
-                                        <tr>
+                                        <tr class="{{ ($visit->visit_status->id == 1)?'warning':'success' }}">
                                             <td><a href="{{ url('/supervisor/visits/' . $visit->id . '/edit') }}">{{ $visit->customer->name }}</a></td>
                                             <td>{{ $visit->user->name . ' (' . $visit->user->username . ')' }}</td>
                                             <td>{{ $visit->programmed_date }}</td>

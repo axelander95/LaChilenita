@@ -1,34 +1,18 @@
-@extends('layouts.admin')
+@extends('layouts.admin-form')
 @section('title')
-{{ $title }}
+{{ isset($data)?'Modificar círculo' : 'Nuevo círculo' }}
 @endsection
-@section('section-title')
-{{ $title }}
-@endsection
-@section('admin-content')
-    @if (isset($circle))
-        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
-            <form method="POST" action="{{ url('/admin/circles/' . $circle->id) }}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="delete" />
-                <input type="submit" class="btn btn-default" value="Eliminar" />
-            </form>
-        </div>
-    @endif
-    <form name="circle" method="POST" action="{{ isset($action)?$action:url('/admin/circles') }}">
-    @if (isset($method))
-        <input name="_method" type="hidden" value="PUT">
-    @endif
-        <div class="form-group">
+@section('form')
+    <div class="form-group">
             <label>Nombre del círculo (Requerido)</label>
             <input type="text" name="name" class="form-control" required="required" 
-            value="{{ isset($circle)?$circle->name:'' }}"/>
+            value="{{ isset($data)?$data->name:'' }}"/>
         </div>
         <div class="form-group">
             <label>Usuario supervisor (Requerido)</label>
             <select class="form-control" name="user" required="required">
                 @foreach($users as $user)
-                    <option {{ isset($circle)?(($circle->user_id == $user->id)?'selected':''):'' }} 
+                    <option {{ isset($data)?(($data->user_id == $user->id)?'selected':''):'' }} 
                         value="{{ $user->id }}">{{ $user->username . ' (' . $user->name . ')' }}</option>
                 @endforeach
             </select>
@@ -71,15 +55,4 @@
                                     </ul>
                                 </div>
                             @endif
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        @if (isset($message))
-            <div class="form-group">
-                <label class="label label-info">{{ $message }}</label>
-            </div>
-        @endif
-        <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-default" />
-            <a href="{{ url('/admin/circles') }}" class="btn btn-default">Cancelar</a>
-        </div>
-    </form>
 @endsection

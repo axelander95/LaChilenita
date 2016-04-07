@@ -13,9 +13,6 @@
             </div>
             <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">@yield('section-title')</h3>
-                    </div>
                     <div class="panel-body">
                         @yield('admin-content')
                     </div>
