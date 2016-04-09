@@ -13,8 +13,8 @@ class CircleController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $circles = $user->user_circles();
-        var_dump($circles);
+        $circles = $user->user_circles;
+        return view('employee.panel', ['circles' => $circles]);
     }
     public function create()
     {
@@ -26,7 +26,9 @@ class CircleController extends Controller
     }
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        $visits = $user->visits()->whereIn('visit_status_id', [1, 2])->get();
+        return view('employee.map', ['visits' => $visits]);
     }
     public function edit($id)
     {

@@ -24,7 +24,7 @@ class User extends Authenticatable
     }
     public function user_circles()
     {
-        return $this->hasManyThrough('App\Models\User', 'App\Models\CircleUser');
+        return $this->hasMany('App\Models\CircleUser');
     }
     public function visits()
     {

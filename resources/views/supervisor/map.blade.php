@@ -8,7 +8,7 @@ Mapa
     }
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="panel panel-default">
@@ -32,7 +32,7 @@ Mapa
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div id="map"></div>
+                                <div id="map" class="big-map"></div>
                                 <script>
                                     var map;
                                     var position = {lat: -2.152381, lng: -80.1199965};

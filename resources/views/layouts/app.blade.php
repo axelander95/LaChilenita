@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>La Chilenita | @yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -17,8 +16,14 @@
         #map {
             min-height: 150px;
             width: 100%;
+            
         }
-        
+        .form-map {
+            height: 300px;
+        }
+        .big-map {
+            height: 500px;
+        }
         @yield('styles')
     </style>
 </head>
@@ -56,7 +61,14 @@
                         @if (Auth::user()->role_id == 2)
                             <li>
                                 <a href="{{ url('/supervisor') }}">
-                                    <strong>PANEL DE SUPERVISIÓN</strong>
+                                    <strong>SUPERVISIÓN DE CÍRCULOS</strong>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->role_id == 3)
+                            <li>
+                                <a href="{{ url('/employee') }}">
+                                    <strong>MIS CÍRCULOS</strong>
                                 </a>
                             </li>
                         @endif
